@@ -6,7 +6,7 @@ package banking;
  * {@link #accountNumber}: Long<br>
  * {@link #bank}: Bank<br>
  */
-public class Transaction {
+public class Transaction implements TransactionInterface{
 	private Long accountNumber;
 	private Bank bank;
 
@@ -22,20 +22,24 @@ public class Transaction {
 	 *             Account validation failed.
 	 */
 	public Transaction(Bank bank, Long accountNumber, int attemptedPin) throws Exception {
-		// complete the function
+		this.accountNumber=accountNumber;
+		this.bank=bank;
+		if(!bank.authenticateUser(accountNumber,attemptedPin)){
+			throw new IllegalArgumentException("Invalid pin");
+		}
 	}
 
 	public double getBalance() {
 		// complete the function
-        return -1;
+        return bank.getBalance(accountNumber);
 	}
 
 	public void credit(double amount) {
-		// complete the function
+		bank.credit(accountNumber,amount);
 	}
 
 	public boolean debit(double amount) {
 		// complete the function
-        return true;
+        return bank.debit(accountNumber,amount);
 	}
 }
